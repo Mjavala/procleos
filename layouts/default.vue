@@ -1,25 +1,27 @@
 <template>
   <div id="default">
-    <v-form
-      id="emailSignup"
-      ref="form"
-      v-model="valid"
-      lazy-validation
-    >
-      <v-text-field
-        v-model="email"
-        class="textInputCustomStyles"
-        :rules="emailRules"
-        placeholder="What's your email address?"
-        required
-        dense
-        rounded
-        filled
-        height="60"
-        hide-details
-        dark
-      />
-    </v-form>
+    <div id="form-wrapper">
+      <v-form
+        id="emailSignup"
+        ref="form"
+        v-model="valid"
+        lazy-validation
+      >
+        <v-text-field
+          v-model="email"
+          class="textInputCustomStyles"
+          :rules="emailRules"
+          placeholder="What's your email address?"
+          required
+          dense
+          rounded
+          filled
+          height="60"
+          hide-details
+          dark
+        />
+      </v-form>
+    </div>
     <svg viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin meet">
       <g id="InitialWelcomeScreen" clip-path="url(#clip0)">
         <g id="Background1">
@@ -148,7 +150,7 @@
 export default {
   data () {
     return {
-      yesClick: false,
+      yes: true,
       valid: true,
       email: '',
       emailRules: [
@@ -162,31 +164,34 @@ export default {
   },
   methods: {
     watcherDOM () {
+      const formField = document.getElementById('form-wrapper')
+      formField.style.opacity = '0'
+      formField.style.display = 'none'
       const button = document.getElementById('Rectangle2')
       const yes = document.getElementById('Yes')
       button.addEventListener('click', () => {
+        formField.style.display = 'block'
         button.classList.add('fadeOut')
         yes.classList.add('fadeOut')
+        formField.classList.add('fadeIn')
       })
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
 
   #default{
     position: relative;
   }
 
   #emailSignup{
-    position: absolute;
-    bottom: 50%;
     border-radius: 50%;
     width: 50%;
-    z-index: 10000;
     background: transparent;
     font-size: 27px;
+    margin: 0 auto;
   }
 
   .textInputCustomStyles{
@@ -204,21 +209,43 @@ export default {
     width: 300px !important;
   }
 
+  #form-wrapper{
+    display: block;
+    position: absolute;
+    width: 100vw;
+    bottom: 5%;
+  }
   #Rectangle2, #Yes{
     cursor: pointer;
   }
 
   .fadeOut{
-    animation: 0.3s fadeOut both;
+    animation: 1s fadeOut both;
     -webkit-animation: 1s fadeOut both;
     -moz-animation: 1s fadeOut both;
   }
+
+  .fadeIn {
+    animation: fadeIn 1s ease-in 1s forwards;;
+    -moz-animation: fadeIn 1s ease-in 1s forwards; /* Firefox */
+    -webkit-animation: fadeIn 1s ease-in 1s forwards; /* Safari and Chrome */
+    -o-animation: fadeIn 1s ease-in 1s forwards; /* Opera */
+  }
+
   @keyframes fadeOut{
       0%{
         opacity: 1;
   }
       100%{
         opacity: 0;
+    }
+  }
+  @keyframes fadeIn{
+      0%{
+        opacity: 0;
+  }
+      100%{
+        opacity: 1;
     }
   }
 </style>
